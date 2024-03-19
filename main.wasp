@@ -1,0 +1,11 @@
+app Egoverment {
+  wasp: {
+    version: "^0.12.3"
+  },
+  title: "Egoverment"
+}
+
+route RootRoute { path: "/", to: MainPage }
+page MainPage {
+  component: import { MainPage } from "@src/MainPage"
+}
