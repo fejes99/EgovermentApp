@@ -2,10 +2,172 @@ app Egoverment {
   wasp: {
     version: "^0.12.3"
   },
-  title: "Egoverment"
+  title: "E uprava",
+  emailSender: {
+    provider: SendGrid,
+    defaultFrom: {
+      name: "David",
+      email: "david.fejes@gmail.com"
+    },
+  },
+  auth: {
+    userEntity: User,
+    methods: {
+      email: {
+        fromField: {
+          name: "David",
+          email: "david.fejes@gmail.com"
+        },
+        emailVerification: {
+          clientRoute: EmailVerificationRoute,
+        },
+        passwordReset: {
+          clientRoute: PasswordResetRoute,
+        },
+      },
+    },
+    onAuthFailedRedirectTo: "/login",
+    onAuthSucceededRedirectTo: "/"
+  },
+  client: {
+    rootComponent: import Layout from "@src/pages/Layout.tsx"
+  },
+  db: {
+    system: PostgreSQL,
+    seeds: [
+      import { documentTypesSeed } from "@src/seeds.js",
+      import { citiesSeed } from "@src/seeds.js"
+    ]
+  }
+}
+
+// ----------------- Pages ------------------ //
+
+route LoginRoute { path: "/login", to: LoginPage }
+page LoginPage {
+  component: import Login from "@src/auth/pages/LoginPage.tsx"
+}
+
+route SignupRoute { path: "/signup", to: SignupPage }
+page SignupPage {
+  component: import Signup from "@src/auth/pages/SignupPage.tsx"
+}
+
+route RequestPasswordResetRoute { path: "/request-password-reset", to: RequestPasswordResetPage }
+page RequestPasswordResetPage {
+  component: import RequestPasswordReset from "@src/auth/pages/RequestPasswordResetPage.tsx",
+}
+
+route PasswordResetRoute { path: "/password-reset", to: PasswordResetPage }
+page PasswordResetPage {
+  component: import PasswordReset from "@src/auth/pages/PasswordResetPage.tsx",
+}
+
+route EmailVerificationRoute { path: "/email-verification", to: EmailVerificationPage }
+page EmailVerificationPage {
+  component: import EmailVerification from "@src/auth/pages/EmailVerificationPage.tsx",
 }
 
 route RootRoute { path: "/", to: MainPage }
 page MainPage {
-  component: import { MainPage } from "@src/MainPage"
+  authRequired: true,
+  component: import Main from "@src/pages/MainPage.tsx"
+}
+
+route RegistrationRoute { path: "/registration", to: RegistrationPage }
+page RegistrationPage {
+  authRequired: true,
+  component: import UserRegistration from "@src/users/pages/UserRegistrationPage.tsx"
+}
+
+// ----------------- Entities ------------------ //
+
+entity User {=psl
+  id          Int       @id @default(autoincrement())
+  name        String?
+  surname    String?
+  isAdmin     Boolean?  @default(false)
+  email       String?
+  gender      String?
+  dateOfBirth DateTime?
+  address     String?
+  city        City?     @relation(fields: [cityName], references: [name])
+  cityName    String?
+  documents   Document[]
+psl=}
+
+entity Document {=psl
+  id         Int      @id @default(autoincrement())
+  number     Int
+  issueDate  DateTime
+  expiryDate DateTime
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  type       DocumentType @relation(fields: [typeName], references: [name])
+  typeName   String
+psl=}
+
+entity DocumentType {=psl
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  documents Document[]
+psl=}
+
+entity City {=psl
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  users User[]
+psl=}
+
+// ----------------- User operations ------------------ //
+
+crud Users {
+  entity: User,
+  operations: {
+    getAll: {
+      overrideFn: import { getUsers } from "@src/users/operations/tasks.js"
+    }
+  }
+}
+
+action registerUser {
+  fn: import { registerUser } from "@src/users/operations/actions.js",
+  entities: [User]
+}
+
+crud Documents {
+  entity: Document,
+  operations: {
+    getAll: {
+      overrideFn: import { getDocuments } from "@src/documents/operations/tasks.js"
+    }
+  }
+}
+
+crud DocumentTypes {
+  entity: DocumentType,
+  operations: {
+    getAll: {
+      overrideFn: import { getDocumentTypes } from "@src/documentTypes/operations/tasks.js"
+    }
+  }
+}
+
+action createDocumentType {
+  fn: import { createDocumentType } from "@src/documentTypes/operations/actions.js",
+  entities: [DocumentType]
+}
+
+crud Cities {
+  entity: City,
+  operations: {
+    getAll: {
+      overrideFn: import { getCities } from "@src/cities/operations/tasks.js"
+    }
+  }
+}
+
+action createCity {
+  fn: import { createCity } from "@src/cities/operations/actions.js",
+  entities: [City]
 }
