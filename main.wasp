@@ -89,28 +89,31 @@ page DocumentAddPage {
 // ----------------- Entities ------------------ //
 
 entity User {=psl
-  id          Int       @id @default(autoincrement())
-  name        String?
-  surname    String?
-  isAdmin     Boolean?  @default(false)
-  email       String?
-  gender      String?
-  dateOfBirth DateTime?
-  address     String?
-  city        City?     @relation(fields: [cityName], references: [name])
-  cityName    String?
-  documents   Document[]
+  id                Int        @id @default(autoincrement())
+  name              String?
+  surname           String?
+  isAdmin           Boolean?   @default(false)
+  email             String?
+  gender            String?
+  dateOfBirth       DateTime?
+  address           String?
+  city              City?      @relation(fields: [cityName], references: [name])
+  cityName          String?
+  documents         Document[]
+  createdRequests   Request[]  @relation(name: "createdBy")
+  processedRequests Request[]  @relation(name: "processedBy")
 psl=}
 
 entity Document {=psl
-  id         Int      @id @default(autoincrement())
+  id         Int          @id @default(autoincrement())
   number     Int
   issueDate  DateTime
   expiryDate DateTime
-  user       User     @relation(fields: [userId], references: [id])
+  user       User         @relation(fields: [userId], references: [id])
   userId     Int
   type       DocumentType @relation(fields: [typeName], references: [name])
   typeName   String
+  services   Service[]
 psl=}
 
 entity DocumentType {=psl
@@ -120,9 +123,48 @@ entity DocumentType {=psl
 psl=}
 
 entity City {=psl
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   users User[]
+  rooms Room[]
+psl=}
+
+entity Room {=psl
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  city         City          @relation(fields: [cityName], references: [name])
+  cityName     String
+  appointments Appointment[]
+psl=}
+
+entity Service {=psl
+  id        Int        @id @default(autoincrement())
+  name      String 
+  price     Int
+  documents Document[]
+  requests  Request[]
+psl=}
+
+entity Request {=psl
+  id              Int          @id @default(autoincrement())
+  requestDate     DateTime     @default(now())
+  appointmentDate DateTime
+  citizen         User         @relation(name: "createdBy", fields: [citizenId], references: [id])
+  citizenId       Int
+  processedBy     User?        @relation(name: "processedBy", fields: [processedById], references: [id])
+  processedById   Int?
+  service         Service      @relation(fields: [serviceId], references: [id])
+  serviceId       Int
+  appointment     Appointment?
+psl=}
+
+entity Appointment {=psl
+  id              Int      @id @default(autoincrement())
+  appointmentDate DateTime
+  request         Request  @relation(fields: [requestId], references: [id])
+  requestId       Int      @unique
+  room            Room     @relation(fields: [roomId], references: [id])
+  roomId          Int
 psl=}
 
 // ----------------- User operations ------------------ //

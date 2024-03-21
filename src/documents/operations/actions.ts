@@ -5,8 +5,8 @@ type CreateDocumentInput = {
   userId: number;
   typeId: number;
   number?: number;
-  issueDate?: string;
-  expiryDate?: string;
+  issueDate?: Date;
+  expiryDate?: Date;
 };
 
 export const createDocument: CreateDocument<CreateDocumentInput, void> = async (args, context) => {
