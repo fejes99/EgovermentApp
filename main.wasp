@@ -80,6 +80,12 @@ page RegistrationPage {
   component: import UserRegistration from "@src/users/pages/UserRegistrationPage.tsx"
 }
 
+route DocumentAddRoute { path: "/documents/add", to: DocumentAddPage }
+page DocumentAddPage {
+  authRequired: true,
+  component: import DocumentAdd from "@src/documents/pages/DocumentAddPage.tsx"
+}
+
 // ----------------- Entities ------------------ //
 
 entity User {=psl
@@ -142,6 +148,11 @@ crud Documents {
       overrideFn: import { getDocuments } from "@src/documents/operations/tasks.js"
     }
   }
+}
+
+action createDocument {
+  fn: import { createDocument } from "@src/documents/operations/actions.js",
+  entities: [Document]
 }
 
 crud DocumentTypes {

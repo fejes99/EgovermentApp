@@ -36,9 +36,7 @@ const UserRegistrationPage: React.FC = () => {
     cityId: '',
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -130,7 +128,6 @@ const UserRegistrationPage: React.FC = () => {
         <div className='mb-6'>
           <Label htmlFor='name' value='Ime' />
           <TextInput
-            id='name'
             name='name'
             type='text'
             value={formData.name}
@@ -143,7 +140,6 @@ const UserRegistrationPage: React.FC = () => {
         <div className='mb-6'>
           <Label htmlFor='surname' value='Prezime' />
           <TextInput
-            id='surname'
             name='surname'
             type='text'
             value={formData.surname}
@@ -157,7 +153,6 @@ const UserRegistrationPage: React.FC = () => {
           <Label value='Pol' className='mr-4' />
           <div className='flex items-center space-x-4'>
             <Radio
-              id='male'
               name='gender'
               value='male'
               checked={formData.gender === 'male'}
@@ -167,7 +162,6 @@ const UserRegistrationPage: React.FC = () => {
             />
             <Label htmlFor='male'>Muški</Label>
             <Radio
-              id='female'
               name='gender'
               value='female'
               checked={formData.gender === 'female'}
@@ -182,7 +176,6 @@ const UserRegistrationPage: React.FC = () => {
         <div className='mb-6'>
           <Label htmlFor='dateOfBirth' value='Datum rođenja' />
           <Datepicker
-            id='dateOfBirth'
             name='dateOfBirth'
             value={formData.dateOfBirth.toLocaleDateString()}
             onSelectedDateChanged={handleDateChange}
@@ -194,7 +187,6 @@ const UserRegistrationPage: React.FC = () => {
         <div className='mb-6'>
           <Label htmlFor='cityId' value='Prebivalište' />
           <Select
-            id='cityId'
             name='cityId'
             value={formData.cityId}
             onChange={handleCityChange}
@@ -215,7 +207,6 @@ const UserRegistrationPage: React.FC = () => {
         <div className='mb-6'>
           <Label htmlFor='address' value='Adresa' />
           <TextInput
-            id='address'
             name='address'
             type='text'
             value={formData.address}
