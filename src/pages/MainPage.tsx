@@ -27,21 +27,21 @@ const Main: React.FC = () => {
           <p className='text-gray-700'>Dodajte svoje lične dokumente.</p>
         </Card>
         <Card
-          href='#'
+          href='/appointment/new'
           className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Izdavanje Dokumenata</h2>
           <p className='text-gray-700'>Zahtev za izdavanje novog dokumenta po prvi put.</p>
         </Card>
         <Card
-          href='#'
+          href='/appointment/replacement'
           className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Zamena Dokumenata</h2>
           <p className='text-gray-700'>Zahtev za zamenu dokumenta nakon isteka roka važenja.</p>
         </Card>
         <Card
-          href='#'
+          href='/appointment/reissuance'
           className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Ponovno Izdavanje Dokumenata</h2>

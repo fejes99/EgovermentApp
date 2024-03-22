@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Card, Datepicker, Label, Select, TextInput } from 'flowbite-react';
+import { Button, Datepicker, Label, Select, TextInput } from 'flowbite-react';
 import { City } from 'wasp/entities';
 import { useAuth } from 'wasp/client/auth';
 import { DocumentTypes } from 'wasp/client/crud';

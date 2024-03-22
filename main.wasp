@@ -36,7 +36,9 @@ app Egoverment {
     system: PostgreSQL,
     seeds: [
       import { documentTypesSeed } from "@src/seeds.js",
-      import { citiesSeed } from "@src/seeds.js"
+      import { citiesSeed } from "@src/seeds.js",
+      import { roomsSeed } from "@src/seeds.js",
+      import { servicesSeed } from "@src/seeds.js"
     ]
   }
 }
@@ -86,22 +88,40 @@ page DocumentAddPage {
   component: import DocumentAdd from "@src/documents/pages/DocumentAddPage.tsx"
 }
 
+route AppointmentNewRoute { path: "/appointment/new", to: AppointmentNewPage }
+page AppointmentNewPage {
+  authRequired: true,
+  component: import AppointmentNew from "@src/appointments/pages/AppointmentNewPage.tsx"
+}
+
+route AppointmentReplacementRoute { path: "/appointment/replacement", to: AppointmentReplacementPage }
+page AppointmentReplacementPage {
+  authRequired: true,
+  component: import AppointmentReplacement from "@src/appointments/pages/AppointmentReplacementPage.tsx"
+}
+
+route AppointmentReissuanceRoute { path: "/appointment/reissuance", to: AppointmentReissuancePage }
+page AppointmentReissuancePage {
+  authRequired: true,
+  component: import AppointmentReissuance from "@src/appointments/pages/AppointmentReissuancePage.tsx"
+}
+
 // ----------------- Entities ------------------ //
 
 entity User {=psl
-  id                Int        @id @default(autoincrement())
-  name              String?
-  surname           String?
-  isAdmin           Boolean?   @default(false)
-  email             String?
-  gender            String?
-  dateOfBirth       DateTime?
-  address           String?
-  city              City?      @relation(fields: [cityName], references: [name])
-  cityName          String?
-  documents         Document[]
-  createdRequests   Request[]  @relation(name: "createdBy")
-  processedRequests Request[]  @relation(name: "processedBy")
+  id                    Int            @id @default(autoincrement())
+  name                  String?
+  surname               String?
+  isAdmin               Boolean?       @default(false)
+  email                 String?
+  gender                String?
+  dateOfBirth           DateTime?
+  address               String?
+  city                  City?          @relation(fields: [cityName], references: [name])
+  cityName              String?
+  documents             Document[]
+  createdAppointments   Appointment[]  @relation(name: "createdBy")
+  processedAppointments Appointment[]  @relation(name: "processedBy")
 psl=}
 
 entity Document {=psl
@@ -131,7 +151,7 @@ psl=}
 
 entity Room {=psl
   id           Int           @id @default(autoincrement())
-  name         String        @unique
+  name         String        
   city         City          @relation(fields: [cityName], references: [name])
   cityName     String
   appointments Appointment[]
@@ -142,29 +162,22 @@ entity Service {=psl
   name      String 
   price     Int
   documents Document[]
-  requests  Request[]
-psl=}
-
-entity Request {=psl
-  id              Int          @id @default(autoincrement())
-  requestDate     DateTime     @default(now())
-  appointmentDate DateTime
-  citizen         User         @relation(name: "createdBy", fields: [citizenId], references: [id])
-  citizenId       Int
-  processedBy     User?        @relation(name: "processedBy", fields: [processedById], references: [id])
-  processedById   Int?
-  service         Service      @relation(fields: [serviceId], references: [id])
-  serviceId       Int
-  appointment     Appointment?
+  appointments  Appointment[]
 psl=}
 
 entity Appointment {=psl
-  id              Int      @id @default(autoincrement())
-  appointmentDate DateTime
-  request         Request  @relation(fields: [requestId], references: [id])
-  requestId       Int      @unique
-  room            Room     @relation(fields: [roomId], references: [id])
-  roomId          Int
+  id                   Int      @id @default(autoincrement())
+  createdAt            DateTime @default(now())
+  appointmentStartDate DateTime
+  appointmentEndDate   DateTime
+  citizen              User     @relation(name: "createdBy", fields: [citizenId], references: [id])
+  citizenId            Int
+  processedBy          User?    @relation(name: "processedBy", fields: [processedById], references: [id])
+  processedById        Int?
+  service              Service  @relation(fields: [serviceId], references: [id])
+  serviceId            Int
+  room                 Room     @relation(fields: [roomId], references: [id])
+  roomId               Int
 psl=}
 
 // ----------------- User operations ------------------ //
@@ -223,4 +236,71 @@ crud Cities {
 action createCity {
   fn: import { createCity } from "@src/cities/operations/actions.js",
   entities: [City]
+}
+
+crud Services {
+  entity: Service,
+  operations: {
+    getAll: {
+      overrideFn: import { getServices } from "@src/services/operations/tasks.js"
+    }
+  }
+}
+
+query getAllCreationServices {
+  fn: import { getAllCreationServices } from "@src/services/operations/queries.js",
+  entities: [Service]
+}
+
+query getAllReplacementServices {
+  fn: import { getAllReplacementServices } from "@src/services/operations/queries.js",
+  entities: [Service]
+}
+
+query getAllReissuanceServices {
+  fn: import { getAllReissuanceServices } from "@src/services/operations/queries.js",
+  entities: [Service]
+}
+
+action createService {
+  fn: import { createService } from "@src/services/operations/actions.js",
+  entities: [Service]
+}
+
+crud Rooms {
+  entity: Room,
+  operations: {
+    getAll: {
+      overrideFn: import { getRooms } from "@src/rooms/operations/tasks.js"
+    }
+  }
+}
+
+query getCityRooms {
+  fn: import { getCityRooms } from "@src/rooms/operations/queries.js",
+  entities: [Room]
+}
+
+action createRoom {
+  fn: import { createRoom } from "@src/rooms/operations/actions.js",
+  entities: [Room]
+}
+
+crud Appointments {
+  entity: Appointment,
+  operations: {
+    getAll: {
+      overrideFn: import { getAppointments } from "@src/appointments/operations/tasks.js"
+    }
+  }
+}
+
+query getCityAppointments {
+  fn: import { getCityAppointments } from "@src/appointments/operations/queries.js",
+  entities: [Appointment]
+}
+
+action createAppointment {
+  fn: import { createAppointment } from "@src/appointments/operations/actions.js",
+  entities: [Appointment]
 }
