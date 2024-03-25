@@ -21,31 +21,31 @@ const Main: React.FC = () => {
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 mt-6'>
         <Card
           href='/documents/add'
-          className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
+          className='bg-blue-900 text-white shadow-lg p-4 rounded-lg hover:bg-blue-500 hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Dodavanje Dokumenata</h2>
-          <p className='text-gray-700'>Dodajte svoje lične dokumente.</p>
+          <p className='text-gray-300'>Dodajte svoje lične dokumente.</p>
         </Card>
         <Card
           href='/appointment/new'
-          className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
+          className='bg-blue-900 text-white shadow-lg p-4 rounded-lg hover:bg-blue-500 hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Izdavanje Dokumenata</h2>
-          <p className='text-gray-700'>Zahtev za izdavanje novog dokumenta po prvi put.</p>
+          <p className='text-gray-300'>Zahtev za izdavanje novog dokumenta po prvi put.</p>
         </Card>
         <Card
           href='/appointment/replacement'
-          className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
+          className='bg-blue-900 text-white shadow-lg p-4 rounded-lg hover:bg-blue-500 hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Zamena Dokumenata</h2>
-          <p className='text-gray-700'>Zahtev za zamenu dokumenta nakon isteka roka važenja.</p>
+          <p className='text-gray-300'>Zahtev za zamenu dokumenta nakon isteka roka važenja.</p>
         </Card>
         <Card
           href='/appointment/reissuance'
-          className='bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition duration-300 ease-in-out'
+          className='bg-blue-900 text-white shadow-lg p-4 rounded-lg hover:bg-blue-500 hover:shadow-xl transition duration-300 ease-in-out'
         >
           <h2 className='text-xl font-semibold mb-2'>Ponovno Izdavanje Dokumenata</h2>
-          <p className='text-gray-700'>
+          <p className='text-gray-300'>
             Zahtev za izdavanje duplikata dokumenata zbog gubitka, krađe ili uništenja.
           </p>
         </Card>

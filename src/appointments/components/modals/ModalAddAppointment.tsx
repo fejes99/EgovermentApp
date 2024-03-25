@@ -78,7 +78,9 @@ const ModalAddAppointment: React.FC<Props> = ({ isOpen, data, onClose, onModalSu
       </Modal.Body>
       <Modal.Footer>
         <div className='w-full'>
-          <Button onClick={handleModalSubmit}>Rezerviši</Button>
+          <Button color='blue' onClick={handleModalSubmit}>
+            Rezerviši
+          </Button>
         </div>
       </Modal.Footer>
     </Modal>

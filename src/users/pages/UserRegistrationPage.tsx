@@ -217,7 +217,7 @@ const UserRegistrationPage: React.FC = () => {
           {errors.address && <p className='text-red-500'>{errors.address}</p>}
         </div>
         <div className='text-center'>
-          <Button type='submit' className='btn btn-primary'>
+          <Button color='blue' type='submit' className='btn btn-primary'>
             Registruj se
           </Button>
         </div>

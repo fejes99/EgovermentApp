@@ -5,11 +5,16 @@ import { isAdmin } from '../../../../users/helpers/isAdmin';
 
 const MainNavbar: React.FC = () => {
   const { data: user } = useAuth();
-  console.log('🚀 ~ user:', user);
+
+  const navbarStyle = user ? 'bg-blue-900 text-white' : 'bg-white text-black';
 
   return (
-    <Navbar fluid rounded>
-      <div />
+    <Navbar fluid className={navbarStyle}>
+      <Navbar.Brand href='/'>
+        <span className='self-center whitespace-nowrap text-2xl font-thin dark:text-white'>
+          euprava
+        </span>
+      </Navbar.Brand>
       <div className='flex md:order-2'>
         {user ? (
           <Dropdown
@@ -32,39 +37,37 @@ const MainNavbar: React.FC = () => {
             </Dropdown.Header>
             {isAdmin(user) && (
               <>
-                <Dropdown.Item onClick={logout}>Admin panel</Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to='/admin'>Admin panel</Link>
+                </Dropdown.Item>
                 <Dropdown.Divider />
               </>
             )}
-            <Dropdown.Item onClick={logout}>Moj nalog</Dropdown.Item>
-            <Dropdown.Item onClick={logout}>Moje aktivnosti</Dropdown.Item>
+            <Dropdown.Item>Moj nalog</Dropdown.Item>
+            <Dropdown.Item>Moje aktivnosti</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={logout}>Izloguj se</Dropdown.Item>
           </Dropdown>
         ) : (
           <>
             <Link to='/login'>
-              <Button>Uloguj se</Button>
+              <Button color='blue'>Uloguj se</Button>
             </Link>
           </>
         )}
         <Navbar.Toggle />
       </div>
 
-      <Navbar.Collapse>
-        <NavLink activeClassName='text-blue-500' to='/products' className='text-lg'>
-          Proizvodi
-        </NavLink>
-        <NavLink activeClassName='text-blue-500' to='/production-plans' className='text-lg'>
-          Proizvodni planovi
-        </NavLink>
-        <NavLink activeClassName='text-blue-500' to='/reservations' className='text-lg'>
-          Rezervacije
-        </NavLink>
-        <NavLink activeClassName='text-blue-500' to='/purchase-requests' className='text-lg'>
-          Zahtevi
-        </NavLink>
-      </Navbar.Collapse>
+      {user && (
+        <Navbar.Collapse>
+          <NavLink activeClassName='text-blue-500' to='/documents' className='text-lg'>
+            Dokumenti
+          </NavLink>
+          <NavLink activeClassName='text-blue-500' to='/services' className='text-lg'>
+            Usluge
+          </NavLink>
+        </Navbar.Collapse>
+      )}
     </Navbar>
   );
 };

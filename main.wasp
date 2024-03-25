@@ -82,10 +82,20 @@ page RegistrationPage {
   component: import UserRegistration from "@src/users/pages/UserRegistrationPage.tsx"
 }
 
+route DocumentRoute { path: "/documents", to: DocumentsPage }
+page DocumentsPage {
+  component: import Documents from "@src/documents/pages/DocumentsPage.tsx"
+}
+
 route DocumentAddRoute { path: "/documents/add", to: DocumentAddPage }
 page DocumentAddPage {
   authRequired: true,
   component: import DocumentAdd from "@src/documents/pages/DocumentAddPage.tsx"
+}
+
+route ServiceRoute { path: "/services", to: ServicesPage }
+page ServicesPage {
+  component: import Services from "@src/services/pages/ServicesPage.tsx"
 }
 
 route AppointmentNewRoute { path: "/appointment/new", to: AppointmentNewPage }
@@ -113,7 +123,7 @@ entity User {=psl
   name                  String?
   surname               String?
   isAdmin               Boolean?       @default(false)
-  email                 String?
+  email                 String?        @unique
   gender                String?
   dateOfBirth           DateTime?
   address               String?
@@ -159,7 +169,7 @@ psl=}
 
 entity Service {=psl
   id        Int        @id @default(autoincrement())
-  name      String 
+  name      String     @unique
   price     Int
   documents Document[]
   appointments  Appointment[]
@@ -302,5 +312,5 @@ query getCityAppointments {
 
 action createAppointment {
   fn: import { createAppointment } from "@src/appointments/operations/actions.js",
-  entities: [Appointment]
+  entities: [Appointment, Service, Room, User]
 }

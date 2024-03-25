@@ -158,7 +158,7 @@ const DocumentAddPage: React.FC = () => {
           {errors.expiryDate && <p className='text-red-500'>{errors.expiryDate}</p>}
         </div>
         <div className='text-center'>
-          <Button type='submit' className='btn btn-primary'>
+          <Button color='blue' type='submit' className='btn btn-primary'>
             Dodaj dokument
           </Button>
         </div>
