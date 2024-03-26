@@ -3,7 +3,7 @@ import { Card } from 'flowbite-react';
 const ServicesPage: React.FC = () => {
   return (
     <>
-      <h1 className='text-5xl font-bold text-center my-16'>Usluge</h1>
+      <h1 className='text-5xl font-bold text-center my-12'>Usluge</h1>
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6'>
         <Card imgSrc='/issue-documents.jpg'>
           <h2 className='text-xl font-semibold mb-2'>Izdavanje dokumenata</h2>

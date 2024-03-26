@@ -43,8 +43,12 @@ const MainNavbar: React.FC = () => {
                 <Dropdown.Divider />
               </>
             )}
-            <Dropdown.Item>Moj nalog</Dropdown.Item>
-            <Dropdown.Item>Moje aktivnosti</Dropdown.Item>
+            <Dropdown.Item>
+              <Link to='/me/documents'>Moji dokumenti</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link to='/me/appointments'>Moje aktivnosti</Link>
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={logout}>Izloguj se</Dropdown.Item>
           </Dropdown>

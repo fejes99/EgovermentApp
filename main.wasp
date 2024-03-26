@@ -93,9 +93,19 @@ page DocumentAddPage {
   component: import DocumentAdd from "@src/documents/pages/DocumentAddPage.tsx"
 }
 
+route UserDocumentRoute { path: "/me/documents", to: UserDocumentsPage }
+page UserDocumentsPage {
+  component: import UserDocuments from "@src/users/pages/UserDocumentsPage.tsx"
+}
+
 route ServiceRoute { path: "/services", to: ServicesPage }
 page ServicesPage {
   component: import Services from "@src/services/pages/ServicesPage.tsx"
+}
+
+route UserAppointmentsRoute { path: "/me/appointments", to: UserAppointmentsPage }
+page UserAppointmentsPage {
+  component: import UserAppointments from "@src/users/pages/UserAppointmentsPage.tsx"
 }
 
 route AppointmentNewRoute { path: "/appointment/new", to: AppointmentNewPage }
@@ -197,6 +207,9 @@ crud Users {
   operations: {
     getAll: {
       overrideFn: import { getUsers } from "@src/users/operations/tasks.js"
+    },
+    get: {
+      overrideFn: import { getUser } from "@src/users/operations/tasks.js"
     }
   }
 }

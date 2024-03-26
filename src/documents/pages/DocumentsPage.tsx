@@ -3,7 +3,7 @@ import { Card } from 'flowbite-react';
 const DocumentsPage: React.FC = () => {
   return (
     <>
-      <h1 className='text-5xl font-bold text-center my-16'>Dokumenta</h1>
+      <h1 className='text-5xl font-bold text-center my-12'>Dokumenta</h1>
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6'>
         <Card imgSrc='/id-card.jpg'>
           <h2 className='text-xl font-semibold mb-2'>Lična karta</h2>
